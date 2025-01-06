@@ -1,7 +1,7 @@
 import { Text, View, Image, ScrollView } from 'react-native'
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { Redirec, router } from 'expo-router'
+import { router } from 'expo-router'
 
 import { images } from '../constants'
 import CustomButton from '@/components/CustomButton'
