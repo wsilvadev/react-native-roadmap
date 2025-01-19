@@ -8,11 +8,13 @@
         "userInterfaceStyle": "automatic",
         "newArchEnabled": true,
         "ios": {
-            "supportsTablet": true
+            "supportsTablet": true,
+            "package": "com.roadmap_course"
         },
         "android": {
             "adaptiveIcon": {
-                "backgroundColor": "#ffffff"
+                "backgroundColor": "#ffffff",
+                "package": "com.roadmap_course"
             }
         },
         "web": {
