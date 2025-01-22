@@ -39,10 +39,15 @@ const Home = () => {
                                 Latest Videos
                             </Text>
                             <Trending
-                                posts={[{ id: 1 }, { id: 2 }, { id: 3 }] ?? []}
+                                posts={[{ id: 1 }, { id: 2 }, { id: 3 }]}
                             />
                         </View>
                     </View>
+                )}
+                ListEmptyComponent={() => (
+                    <Text className="text-gray-100 text-xl font-pregular">
+                        No videos found
+                    </Text>
                 )}
             />
         </SafeAreaView>
