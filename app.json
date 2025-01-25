@@ -1,39 +1,54 @@
 {
-    "expo": {
-        "name": "roadmap_course",
-        "slug": "roadmap_course",
-        "version": "1.0.0",
-        "orientation": "portrait",
-        "scheme": "myapp",
-        "userInterfaceStyle": "automatic",
-        "newArchEnabled": true,
-        "ios": {
-            "supportsTablet": true,
-            "package": "com.roadmap_course"
-        },
-        "android": {
-            "adaptiveIcon": {
-                "backgroundColor": "#ffffff",
-                "package": "com.roadmap_course"
-            }
-        },
-        "web": {
-            "bundler": "metro",
-            "output": "static"
-        },
-        "plugins": [
-            "expo-router",
-            [
-                "expo-splash-screen",
-                {
-                    "imageWidth": 200,
-                    "resizeMode": "contain",
-                    "backgroundColor": "#ffffff"
-                }
-            ]
-        ],
-        "experiments": {
-            "typedRoutes": true
+  "expo": {
+    "name": "roadmap_course",
+    "slug": "roadmap_course",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "myapp",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "package": "com.roadmap_course"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#ffffff",
+        "package": "com.roadmap_course"
+      },
+      "package": "com.wsilvadev.roadmap_course"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#ffffff"
         }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "cc1c450f-5f92-423e-9274-1e2ae6a27916"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/cc1c450f-5f92-423e-9274-1e2ae6a27916"
     }
+  }
 }

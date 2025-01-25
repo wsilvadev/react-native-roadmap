@@ -11,6 +11,7 @@ const logOut = async () => {
 const Profile = () => {
     return (
         <SafeAreaView>
+            <Text>Profile</Text>
             <Button
                 title="Logout"
                 onPress={logOut}
