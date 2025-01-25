@@ -15,21 +15,27 @@ import EmptyState from '@/components/EmptyState'
 import { getAllPosts } from '@/lib/appwrite'
 import useAppwrite from '@/lib/useAppwrite'
 
+type UseAppwrite = {
+    data: any[]
+    isLoading: boolean
+    refetch: () => Promise<void>
+}
 const Home = () => {
-    const { data, isLoading, refetch } = useAppwrite(getAllPosts)
+    const { data, isLoading, refetch }: UseAppwrite = useAppwrite(getAllPosts)
 
     const [refreshing, setRefreshing] = useState(false)
 
     const onRefresh = async () => {
         setRefreshing(true)
         await refetch()
+        console.log(data)
         setRefreshing(false)
     }
 
     return (
         <SafeAreaView className="bg-primary">
             <FlatList
-                data={[]}
+                data={data}
                 keyExtractor={(item) => item.id}
                 renderItem={({ item }) => <Text>{item.id}</Text>}
                 ListHeaderComponent={() => (
