@@ -14,30 +14,30 @@ import Trending from '@/components/Trending'
 import EmptyState from '@/components/EmptyState'
 import { getAllPosts } from '@/lib/appwrite'
 import useAppwrite from '@/lib/useAppwrite'
+import VideoCard from '@/components/VideoCard'
 
 type UseAppwrite = {
-    data: any[]
+    data: any
     isLoading: boolean
     refetch: () => Promise<void>
 }
 const Home = () => {
-    const { data, isLoading, refetch }: UseAppwrite = useAppwrite(getAllPosts)
+    const { data: posts, refetch }: UseAppwrite = useAppwrite(getAllPosts)
 
     const [refreshing, setRefreshing] = useState(false)
 
     const onRefresh = async () => {
         setRefreshing(true)
         await refetch()
-        console.log(data)
         setRefreshing(false)
     }
 
     return (
         <SafeAreaView className="bg-primary">
             <FlatList
-                data={data}
-                keyExtractor={(item) => item.id}
-                renderItem={({ item }) => <Text>{item.id}</Text>}
+                data={posts}
+                keyExtractor={(item) => item.$id}
+                renderItem={({ item }) => <VideoCard video={item} />}
                 ListHeaderComponent={() => (
                     <View className="my-6 px-4 space-y-6">
                         <View className="justify-between items-start flex-row mb-6">

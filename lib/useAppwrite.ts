@@ -1,7 +1,7 @@
 const { useEffect, useState } = require('react')
 import { Alert } from 'react-native'
 type UseAppwrite = {
-    data: any[]
+    data: any
     isLoading: boolean
     refetch: () => Promise<void>
 }
@@ -11,7 +11,7 @@ export const useAppwrite = (fn: () => Promise<any[]>): UseAppwrite => {
     const fetchData = async () => {
         setIsLoading(true)
         try {
-            const response = fn()
+            const response = await fn()
             setData(response)
         } catch (error: unknown) {
             Alert.alert('Error', (error as Error).message)
