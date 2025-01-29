@@ -1,5 +1,5 @@
 import { Text, View, Image, ScrollView } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Redirect, router } from 'expo-router'
 
@@ -7,10 +7,10 @@ import { images } from '../constants'
 import CustomButton from '@/components/CustomButton'
 import { StatusBar } from 'expo-status-bar'
 import { useGlobalContext } from '@/context/GlobalProvider'
+import { getCurrentUser } from '@/lib/appwrite'
 
 const RootLayout = () => {
     const { isLoading, isLoggedIn } = useGlobalContext()
-    console.log(isLoading, isLoggedIn)
     if (!isLoading && isLoggedIn) return <Redirect href="/home" />
 
     return (

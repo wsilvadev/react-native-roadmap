@@ -15,27 +15,23 @@ import { useVideoPlayer, VideoView } from 'expo-video'
 import { useEvent } from 'expo'
 
 type ExtendedCustomAnimation = CustomAnimation & {
-    scale?: { [key: number]: { scale: number } }
+    [key: number]: { scale: number }
 }
 
 const zoomIn: ExtendedCustomAnimation = {
-    scale: {
-        0: { scale: 0.9 },
-        1: { scale: 1.1 },
-    },
+    0: { scale: 0.9 },
+    1: { scale: 1.1 },
 }
 
 const zoomOut: ExtendedCustomAnimation = {
-    scale: {
-        0: { scale: 1 },
-        1: { scale: 0.9 },
-    },
+    0: { scale: 1 },
+    1: { scale: 0.9 },
 }
-const localSource = require('../video.mp4')
 
 const TrendingItem = ({ activeItem, item }: any) => {
     const [play, setPlay] = useState(false)
-    const player = useVideoPlayer(localSource, (player) => {
+    const videoSource = item.video
+    const player = useVideoPlayer(videoSource, (player) => {
         player.loop = true
         player.staysActiveInBackground = true
     })
@@ -47,11 +43,11 @@ const TrendingItem = ({ activeItem, item }: any) => {
     return (
         <Animatable.View
             className="mr-5"
-            animation={activeItem === item.$id ? zoomIn.scale : zoomOut.scale}
+            animation={activeItem === item.$id ? zoomIn : zoomOut}
             duration={500}
         >
             {play ? (
-                <View className="w-52 h-72 rounded-[35px] mt-3 bg-white/10 relative">
+                <View className="w-52 h-72 rounded-[35px] mt-3 bg-white/10">
                     <VideoView
                         player={player}
                         style={{
@@ -96,7 +92,7 @@ const TrendingItem = ({ activeItem, item }: any) => {
 }
 
 const Trending = ({ posts }: any) => {
-    const [activeItem, setActiveItem] = useState(posts)
+    const [activeItem, setActiveItem] = useState(posts[0])
     const viewableItemsChanges = ({ viewableItems }: any) => {
         if (viewableItems.length > 0) {
             setActiveItem(viewableItems[0].key)
@@ -111,7 +107,7 @@ const Trending = ({ posts }: any) => {
             )}
             onViewableItemsChanged={viewableItemsChanges}
             viewabilityConfig={{
-                itemVisiblePercentThreshold: 70,
+                itemVisiblePercentThreshold: 100,
             }}
             contentOffset={{ x: 170, y: 0 }}
             horizontal
