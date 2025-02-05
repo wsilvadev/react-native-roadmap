@@ -1,17 +1,15 @@
 import {
     View,
-    Text,
     FlatList,
     TouchableOpacity,
     ImageBackground,
     Image,
-    Dimensions,
 } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import * as Animatable from 'react-native-animatable'
 import { CustomAnimation } from 'react-native-animatable'
 import { icons } from '@/constants'
-import { useVideoPlayer, VideoView } from 'expo-video'
+import { useVideoPlayer, VideoView, VideoPlayer } from 'expo-video'
 import { useEvent } from 'expo'
 
 type ExtendedCustomAnimation = CustomAnimation & {
@@ -27,19 +25,35 @@ const zoomOut: ExtendedCustomAnimation = {
     0: { scale: 1 },
     1: { scale: 0.9 },
 }
+interface props {
+    activeItem?: string
+    item?: any
+    posts?: any
+    activePlayer: any
+    setActivePlayer: any
+}
 
-const TrendingItem = ({ activeItem, item }: any) => {
+const TrendingItem = ({
+    activeItem,
+    item,
+    activePlayer,
+    setActivePlayer,
+}: props) => {
     const [play, setPlay] = useState(false)
     const videoSource = item.video
     const players = useVideoPlayer(videoSource, (player) => {
         player.loop = true
-        player.staysActiveInBackground = true
     })
 
     const { isPlaying } = useEvent(players, 'playingChange', {
         isPlaying: players.playing,
     })
-
+    useEffect(() => {
+        if (activePlayer && activePlayer !== players) {
+            players.pause()
+            setPlay(false)
+        }
+    }, [activePlayer, players])
     return (
         <Animatable.View
             className="mr-5"
@@ -70,6 +84,7 @@ const TrendingItem = ({ activeItem, item }: any) => {
                         } else {
                             players.play()
                             setPlay(true)
+                            setActivePlayer(players)
                         }
                     }}
                 >
@@ -93,6 +108,8 @@ const TrendingItem = ({ activeItem, item }: any) => {
 
 const Trending = ({ posts }: any) => {
     const [activeItem, setActiveItem] = useState(posts[0]?.$id)
+    const [activePlayer, setActivePlayer] = useState(null)
+
     const viewableItemsChanges = ({ viewableItems }: any) => {
         if (viewableItems.length > 0) {
             setActiveItem(viewableItems[0]?.item?.$id)
@@ -103,7 +120,12 @@ const Trending = ({ posts }: any) => {
             data={posts}
             keyExtractor={(item) => item.$id}
             renderItem={({ item }) => (
-                <TrendingItem activeItem={activeItem} item={item} />
+                <TrendingItem
+                    activePlayer={activePlayer}
+                    setActivePlayer={setActivePlayer}
+                    activeItem={activeItem}
+                    item={item}
+                />
             )}
             onViewableItemsChanged={viewableItemsChanges}
             viewabilityConfig={{

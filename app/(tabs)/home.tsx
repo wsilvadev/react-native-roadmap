@@ -24,6 +24,7 @@ type UseAppwrite = {
 const Home = () => {
     const { data: posts, refetch }: UseAppwrite = useAppwrite(getAllPosts)
     const { data: latestPosts }: UseAppwrite = useAppwrite(getLatestPosts)
+    const [activePlayer, setActivePlayer] = useState(null)
 
     const [refreshing, setRefreshing] = useState(false)
 
@@ -38,7 +39,13 @@ const Home = () => {
             <FlatList
                 data={posts}
                 keyExtractor={(item) => item.$id}
-                renderItem={({ item }) => <VideoCard video={item} />}
+                renderItem={({ item }) => (
+                    <VideoCard
+                        video={item}
+                        setActivePlayer={setActivePlayer}
+                        activePlayer={activePlayer}
+                    />
+                )}
                 ListHeaderComponent={() => (
                     <View className="my-6 px-4 space-y-6">
                         <View className="justify-between items-start flex-row mb-6">

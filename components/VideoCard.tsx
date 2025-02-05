@@ -1,5 +1,5 @@
 import { View, Text, Image, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { icons } from '@/constants'
 import { useVideoPlayer, VideoView } from 'expo-video'
 import { useEvent } from 'expo'
@@ -11,8 +11,9 @@ interface Props {
         video: string
         creator: { username: string; avatar: string }
     }
+    activePlayer: any
+    setActivePlayer: any
 }
-
 const VideoCard = ({
     video: {
         title,
@@ -20,15 +21,22 @@ const VideoCard = ({
         video,
         creator: { username, avatar },
     },
+    activePlayer,
+    setActivePlayer,
 }: Props) => {
     const [play, setPlay] = useState(false)
     const player = useVideoPlayer(video, (player) => {
         player.loop = true
-        player.staysActiveInBackground = true
     })
-    const { isPlaying } = useEvent(player, 'playingChange', {
+    let { isPlaying } = useEvent(player, 'playingChange', {
         isPlaying: player.playing,
     })
+    useEffect(() => {
+        if (activePlayer && activePlayer !== player) {
+            player.pause()
+            setPlay(false)
+        }
+    }, [activePlayer, player])
 
     return (
         <View className="flex-col items-center px-4 mb-14">
@@ -69,6 +77,7 @@ const VideoCard = ({
                         allowsFullscreen
                         allowsPictureInPicture
                         startsPictureInPictureAutomatically
+                        contentFit="contain"
                     />
                 </View>
             ) : (
@@ -81,6 +90,7 @@ const VideoCard = ({
                         } else {
                             player.play()
                             setPlay(true)
+                            setActivePlayer(player)
                         }
                     }}
                     className="w-full h-60 rounded-xl m-3 relative justify-center items-center"
